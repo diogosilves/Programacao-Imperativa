@@ -1,4 +1,5 @@
 #include "ficha8.h"
+#include "stdlib.h"
 //o elemento do topo da stack é o mais á direita na lista
 
 LInt newLInt (int x, LInt xs){
