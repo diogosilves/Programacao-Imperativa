@@ -662,6 +662,8 @@ void insertOrd(LInt *x, int s){
 
 //56
 int removeOneOrd (LInt *x, int s){
+    //verificar se a lista esta vazia
+    if((*x) == NULL) return 1;
     if((*x)->valor == s){
         LInt temp = *x;
         (*x) = (*x)->prox;
@@ -678,6 +680,7 @@ int removeOneOrd (LInt *x, int s){
         }
         prev = prev->prox;
     }
+    return 1;
 }
 
 //57
@@ -693,6 +696,8 @@ LInt meuMerge(LInt *r, LInt a, LInt b){
         (*r) = b;
         meuMerge(&((*r)->prox),a,b->prox);
     }
+
+    return *r;
 }
 
 //58(hard)
@@ -700,8 +705,7 @@ void splitQS(LInt l, int x, LInt *mx, LInt *Mx){}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//60
-
+//60(ask Senhor Peixoto)
 int removeAll(LInt *a, int x){
     int cont = 0;
     //  primeiro elemtento da lista
@@ -720,7 +724,7 @@ int removeAll(LInt *a, int x){
             free(list);
             cont++;
         }
-        prev = prev->prox;
+        else prev = prev->prox;
     }
     return cont;
 }
@@ -758,38 +762,93 @@ int maiorL(LInt *l){
 
 int removeMaiorL (LInt *l){
     int max = maiorL(l);
-    LInt prev = NULL;
-    LInt aux = (*l);
+
+    //1ºelemento da lista
+    if((*l)->valor == max){
+        LInt aux = (*l);
+        (*l) = (*l)->prox;
+        free(aux);
+    }
+    //resto da lista
+    else{
+        LInt prev = (*l);
+        while(prev->prox != NULL){
+            LInt atual = prev->prox;
+            if(atual->valor == max){
+                prev->prox = atual->prox;
+                free(atual);
+            }
+            else prev = prev->prox;
+        }
+    }
+    return max;
 }
 
-//63
+//63(to much warnings)
 void init (LInt *x){
-    while((*x) != NULL){
-        LInt aux = (*x);
-        if(aux->prox == NULL){
-            free(aux);
+    if((*x) == NULL) return;
+    LInt aux = (*x);
+    //lista tem apenas 1 elemento
+    if((*x)->prox == NULL){
+        (*x) = NULL;
+        free(aux);
+    }
+    else{
+        LInt prev = (*x);
+        LInt atual = (*x)->prox;
+        while(prev->prox != NULL){
+            if(atual->prox == NULL){
+                prev->prox = NULL;
+                free(atual);
+            }
+            else{
+                prev = atual;
+                atual = atual->prox;
+            }
         }
     }
 }
 
 //64
 void appendL(LInt *l, int x){
-    while((*l) != NULL){
-        if((*l)->prox == NULL){
-            LInt aux = malloc(sizeof (struct lligada));
-            aux->prox = NULL;
-            aux->valor = x;
-            (*l)->prox = aux;
+    LInt aux = malloc(sizeof (struct lligada));
+    aux->prox = NULL;
+    aux->valor = x;
+
+    if((*l) == NULL){
+        (*l) = aux;
+    }
+    else{
+        LInt atual = (*l);
+        while(atual != NULL && atual != aux){
+            if(atual->prox == NULL)
+                atual->prox = aux;
+            else{
+                atual = atual->prox;
+            }
         }
     }
 }
 
 //65
 void concatL(LInt *a, LInt b){
-    if((*a) != NULL){
+    if ((*a) == NULL)
+        (*a) = b;
+    else{
         //avança na lista de A
         concatL(&((*a)->prox),b);
     }
-    //adiciona B a A
-    else (*a) == b;
+}
+
+//66(review)
+LInt cloneL (LInt l) {
+    LInt list = NULL;
+    while(l) {
+        LInt new = malloc(sizeof(struct lligada));
+        new->valor = l->valor;
+        new->prox = list;
+        list = new;
+        l = l->prox;
+    }
+    return list;
 }
