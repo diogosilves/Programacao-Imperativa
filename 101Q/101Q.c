@@ -708,20 +708,34 @@ void splitQS(LInt l, int x, LInt *mx, LInt *Mx){}
 //60(ask Senhor Peixoto)
 int removeAll(LInt *a, int x){
     int cont = 0;
-    //  primeiro elemtento da lista
-    if ((*a)->valor == x) {
-        LInt aux = *a;
-        (*a) = (*a)->prox;
-        free(aux);
-        cont++;
+    printf("%d\n",x);
+    LInt aux3 = (*a);
+    while(aux3 != NULL){
+        printf("%d ",aux3->valor);
+        aux3 = aux3->prox;
+    }
+    printf("\n");
+
+    //  primeiro elemento da lista
+    while((*a) != NULL){
+        if((*a)->valor == x){
+            LInt aux = *a;
+            (*a) = (*a)->prox;
+            free(aux);
+            cont++;
+        }
+        else break;
+    }
+    if((*a) == NULL || (*a)->prox == NULL){
+        return cont;
     }
     //  resto da lista
     LInt prev = (*a);
     while(prev->prox != NULL){
-        LInt list = prev->prox;
-        if(list->valor == x){
-            prev->prox = list->prox;
-            free(list);
+        LInt atual = prev->prox;
+        if(atual->valor == x){
+            prev->prox = atual->prox;
+            free(atual);
             cont++;
         }
         else prev = prev->prox;
@@ -784,7 +798,7 @@ int removeMaiorL (LInt *l){
     return max;
 }
 
-//63(to much warnings)
+//63
 void init (LInt *x){
     if((*x) == NULL) return;
     LInt aux = (*x);
