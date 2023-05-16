@@ -891,6 +891,43 @@ int lengthL(LInt *l){
     return cont;
 }
 
+//70
 int take(int n, LInt *l){
     int len = lengthL(l);
+    LInt aux = (*l);
+    if(len <= n)
+        return len;
+    else{
+        while(n > 0){
+            aux = aux->prox;
+            n--;
+        }
+        free(aux->prox);
+        aux->prox = NULL;
+    }
+    return lengthL(l);
 }
+
+//71
+LInt Nforward(LInt l, int N){
+    LInt aux = l;
+    while(N > 0){
+        aux = aux->prox;
+        N--;
+    }
+    return aux;
+}
+
+//72
+int listToArray (LInt l, int v[], int N){
+    int i, cont = 0;
+    LInt aux = l;
+    for(i = 0; i < N && (aux != NULL) ; i++){
+        v[i] = aux->valor;
+        aux = aux->prox;
+        cont++;
+    }
+    return cont;
+}
+
+//73
