@@ -833,12 +833,24 @@ void appendL(LInt *l, int x){
 }
 
 //65
-void concatL(LInt *a, LInt b){
+void concatLv1(LInt *a, LInt b){
     if ((*a) == NULL)
         (*a) = b;
     else{
         //avança na lista de A
-        concatL(&((*a)->prox),b);
+        concatLv1(&((*a)->prox),b);
+    }
+}
+
+void concatv2(LInt *a, LInt b){
+    if(*a == NULL)
+        (*a) = b;
+    else{
+        LInt aux = (*a);
+        while(aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = b;
     }
 }
 

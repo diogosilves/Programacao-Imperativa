@@ -127,3 +127,16 @@ int adicionaAluno(Turma *t, char *nome, int nr, int nota) {
 
     return 0;
 }
+
+//questao 65 das 101Q
+void concatQ(LInt *a, LInt b){
+    if(*a == NULL)
+        (*a) = b;
+    else{
+        LInt aux = (*a);
+        while(aux->prox != NULL){
+            aux = aux->prox;
+        }
+        aux->prox = b;
+    }
+}

@@ -12,3 +12,4 @@ typedef struct lligada {
 } * LInt;
 
 int maximo(LInt *l);
+void concatLv1(LInt *a, LInt b);
