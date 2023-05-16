@@ -13,3 +13,15 @@ typedef struct lligada {
 
 int maximo(LInt *l);
 void concatLv1(LInt *a, LInt b);
+LInt arrayToList (int v[], int N);
+LInt parte (LInt l);
+
+typedef struct nodo {
+    int valor;
+    struct nodo *esq, *dir;
+} *ABin;
+
+int altura(ABin r);
+ABin cloneAB (ABin r);
+void mirror (ABin *x);
+void inorderaux(ABin tree, LInt * list);

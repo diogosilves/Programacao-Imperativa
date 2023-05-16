@@ -930,4 +930,112 @@ int listToArray (LInt l, int v[], int N){
     return cont;
 }
 
-//73
+//73(review)
+LInt arrayToList (int v[], int N){
+    if(N==0) return NULL;
+    LInt lista = malloc(sizeof (struct lligada));
+    lista->valor = *v;
+    lista->prox = arrayToList(v+1,N-1);
+    return lista;
+}
+
+//74
+//  o stor dá free da lista na main
+//  estou a perder a informação da lista
+LInt somasAcL (LInt l){
+    if(!l) return NULL;
+    LInt aux = l;
+    while(aux->prox != NULL){
+        aux->prox->valor += aux->valor;
+        aux = aux->prox;
+    }
+    return l;
+}
+
+//75
+void remreps (LInt l){
+    if(l !=NULL) {
+        while (l->prox != NULL) {
+            if (l->prox->valor == l->valor) {
+                LInt tmp = l->prox;
+                l->prox = tmp->prox;
+                free(tmp);
+            } else l = l->prox;
+        }
+    }
+}
+
+
+//76
+LInt rotateL (LInt l){
+    if(!l || !l->prox) return l;
+    int len = length(l);
+    LInt array[len];
+    for(int i = 0; i < len; i++, l = l->prox) array[i] = l;
+    array[0]->prox = NULL;
+    array[len - 1]->prox = array[0];
+    return array[1];
+}
+
+//77
+LInt parte (LInt l){
+    if(!l || !l->prox) return NULL;
+    LInt newL = l->prox;
+    l->prox = l->prox->prox;
+    newL->prox = parte(l->prox);
+    return newL;
+}
+
+//78
+int altura(ABin r){
+    if(r == NULL) return 0;
+    int niveis;
+    if(altura(r->esq) > altura(r->dir))
+        niveis = 1 + altura(r->esq);
+    else niveis = 1 + altura(r->dir);
+    return niveis;
+}
+
+//79
+ABin cloneAB (ABin r){
+    if(r == NULL) return NULL;
+    ABin nova = malloc(sizeof (struct lligada));
+    nova->valor = r->valor;
+    nova->esq = cloneAB(r->esq);
+    nova->dir = cloneAB(r->dir);
+    return nova;
+}
+
+//80
+void mirror (ABin *x){
+    if((*x) != NULL) {
+        ABin tmp = (*x)->dir;
+        (*x)->dir = (*x)->esq;
+        (*x)->esq = tmp;
+        mirror(&(*x)->esq);
+        mirror(&(*x)->dir);
+    }
+}
+
+//81
+void inorderaux(ABin tree, LInt * list){
+    LInt aux;
+    if(tree) {
+        inorderaux(tree->dir,list);
+
+        aux = malloc(sizeof(struct lligada));
+        aux->valor = tree->valor;
+        aux->prox = *list;
+
+        *list = aux;
+
+        inorderaux(tree->esq,list);
+    }
+}
+
+void inorder (ABin tree, LInt * list) {
+    *list = NULL;
+    inorderaux(tree,list);
+}
+
+//81
