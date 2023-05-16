@@ -762,20 +762,8 @@ int removeDups(LInt *l){
 }
 
 //62
-int maiorL(LInt *l){
-    int max = 0;
-    LInt aux = (*l);
-    while(aux != NULL){
-        if(aux->valor > max){
-            max = aux->valor;
-        }
-        aux = aux->prox;
-    }
-    return max;
-}
-
 int removeMaiorL (LInt *l){
-    int max = maiorL(l);
+    int max = maximo(l);
 
     //1ºelemento da lista
     if((*l)->valor == max){
@@ -865,4 +853,32 @@ LInt cloneL (LInt l) {
         l = l->prox;
     }
     return list;
+}
+
+//68(*l version)
+int maximo(LInt *l){
+    int max = 0;
+    LInt aux = (*l);
+    while(aux != NULL){
+        if(aux->valor > max){
+            max = aux->valor;
+        }
+        aux = aux->prox;
+    }
+    return max;
+}
+
+//69
+int lengthL(LInt *l){
+    int cont = 0;
+    LInt aux = *l;
+    while(aux != NULL){
+        aux = aux->prox;
+        cont++;
+    }
+    return cont;
+}
+
+int take(int n, LInt *l){
+    int len = lengthL(l);
 }
