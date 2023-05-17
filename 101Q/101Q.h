@@ -25,3 +25,4 @@ int altura(ABin r);
 ABin cloneAB (ABin r);
 void mirror (ABin *x);
 void inorderaux(ABin tree, LInt * list);
+void concatv2(LInt *a, LInt b);

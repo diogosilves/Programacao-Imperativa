@@ -1038,4 +1038,139 @@ void inorder (ABin tree, LInt * list) {
     inorderaux(tree,list);
 }
 
-//81
+//82
+void preorderaux(ABin a, LInt *l) {
+    LInt aux;
+    if(a) {
+        preorderaux(a->dir,l);
+        preorderaux(a->esq,l);
+
+        aux = malloc(sizeof(struct lligada));
+        aux->valor = a->valor;
+        aux->prox = *l;
+
+        *l = aux;
+    }
+}
+
+void preorder(ABin a, LInt *l){
+    *l = NULL;
+    preorderaux(a,l);
+}
+
+//83
+void posorderaux(ABin tree, LInt * list) {
+    if(tree) {
+        LInt new = malloc(sizeof(struct lligada));
+        new->valor = tree->valor;
+        new->prox = (*list);
+        (*list) = new;
+        posorderaux(tree->dir,list);
+        posorderaux(tree->esq,list);
+    }
+}
+
+void posorder(ABin tree, LInt * list) {
+    *list = NULL;
+    posorderaux(tree,list);
+}
+
+//84
+int depth (ABin a, int x){
+    if(!a) return -1;
+    if(a->valor == x) return 1;
+
+    int esq = depth(a->esq,x);
+    int dir = depth(a->dir,x);
+
+    if(esq == -1 && dir == -1) return -1;
+    if(esq == -1) return 1 + dir;
+    if(dir == -1) return 1 + esq;
+
+    else return esq > dir ? 1 + dir : 1 + esq;
+}
+
+//85
+int freeAB (ABin a){
+    if(!a) return 0;
+    int conta = 1 + freeAB(a->esq) + freeAB(a->dir);
+    free(a);
+    return conta;
+}
+
+//86
+int pruneAB(ABin *a, int l){
+    if((*a) == NULL) return 0;
+    int c = 0;
+    if(l == 0){
+        c = freeAB((*a));
+        (*a) = NULL;
+        return c;
+    }
+    else{
+        c += pruneAB(&(*a)->esq,l-1);
+        c += pruneAB(&(*a)->dir,l-1);
+    }
+    return c;
+}
+
+//87
+int iguaisAB (ABin a, ABin b){
+    if(a && !b || !a && b) return 0;
+    if(a == b || !a == !b) return 1;
+
+    return a->valor == b->valor && iguaisAB(a->esq, b->esq) && iguaisAB(a->dir, b->dir);
+}
+
+//88
+LInt concatAux(LInt a, LInt b){
+    if(!a) return b;
+    LInt aux = a;
+    while(aux->prox != NULL){
+        aux = aux->prox;
+    }
+    aux->prox = b;
+    return a;
+}
+
+LInt nivelL (ABin a, int n){
+    if(!a || n < 1) return NULL;
+    if(n == 1){
+        LInt aux = malloc(sizeof(struct lligada));
+        aux->valor = a->valor;
+        aux->prox = NULL;
+        return aux;
+    }
+    else return concatAux((nivelL(a->esq,n-1)), (nivelL(a->dir,n-1)));
+}
+
+
+//89
+
+int nivelV (ABin a, int n, int v[]){
+    if(!a || n < 1) return 0;
+    if(n == 1){
+        *v = a->valor;
+        return 1;
+    }
+    else{
+        int e = nivelV(a->esq,n-1,v);
+        int d = nivelV(a->dir,n-1,v+e);
+        return e + d;
+    }
+}
+
+//90
+
+int dumpAbin (ABin a, int v[], int N) {
+    int e, d;
+    if(a && N) {
+        e = dumpAbin(a->esq,v,N);
+        if(e < N) {
+            v[e] = a->valor;
+            return 1 + e + dumpAbin(a->dir,v+e+1,N-e-1);
+        }
+        else return N;
+    }
+    else return 0;
+}
